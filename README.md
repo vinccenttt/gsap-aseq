@@ -84,7 +84,6 @@ If stepNumber is a neighbour of the current step, __.drawNextStep__ or __.rawPre
 
 - __.getStep__ in TransitionsManagerClass returns current step
 
-___
 # Restrictions
 
 - the [.data property](https://greensock.com/docs/v3/GSAP/Tween/data) cannot be used as it is used inside TransitionsManager. Moreover you should not pass any reversed transitions. 
