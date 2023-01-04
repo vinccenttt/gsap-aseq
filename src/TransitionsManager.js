@@ -259,56 +259,61 @@ export default class TransitionsManager {
 }
 
 // create a gsap transition taking customVars into consideration
-export function createTransition(target, _gsapVars, _customVars) {
-  const transition = gsap.to(target, { ..._gsapVars, paused: true });
+export function createTransition(target, gsapVars, customVars) {
+  const transition = gsap.to(target, { ...gsapVars});
 
   // modify transition properties if necessary
-  if (_customVars) {
-    if (_customVars.autoHideOnReverseComplete === true) {
+  if (customVars) {
+    if (customVars.autoHideOnReverseComplete === true) {
       transition.eventCallback("onReverseComplete", () => {
-        if (_gsapVars.onReverseComplete) _gsapVars.onReverseComplete();
+        if (gsapVars.onReverseComplete) gsapVars.onReverseComplete();
+        d3.selectAll(target).style("display", "none");
         d3.select(target).style("display", "none");
       });
 
       transition.eventCallback("onStart", () => {
-        if (_gsapVars.onStart) _gsapVars.onStart();
+        if (gsapVars.onStart) gsapVars.onStart();
+        d3.selectAll(target).style("display", "block");
         d3.select(target).style("display", "block");
       });
     }
 
-    if (_customVars.autoHideOnComplete === true) {
+    if (customVars.autoHideOnComplete === true) {
       transition.eventCallback("onComplete", () => {
-        if (_gsapVars.onComplete) _gsapVars.onComplete();
+        if (gsapVars.onComplete) gsapVars.onComplete();
+        d3.selectAll(target).style("display", "none");
         d3.select(target).style("display", "none");
       });
     }
 
     // define onReverseStart
-    if (_customVars.autoHideOnComplete === true || _customVars.onReverseStart) {
+    if (customVars.autoHideOnComplete === true || customVars.onReverseStart) {
       transition.data = {
         back: false,
         time: 0,
       };
 
-      const onReverseStartCopy = _customVars.onReverseStart;
-      _customVars.onReverseStart = () => {
+      const onReverseStartCopy = customVars.onReverseStart;
+      customVars.onReverseStart = () => {
         transition.data.back = true;
         if (onReverseStartCopy) onReverseStartCopy();
-        if (_customVars.autoHideOnComplete === true)
-          d3.select(target).attr("style", "block");
+        if (customVars.autoHideOnComplete === true){
+          d3.selectAll(target).style("display", "block");
+          d3.select(target).style("display", "block");
+        }
       };
     }
 
     // check when to execute onReverseStart
     transition.eventCallback("onUpdate", () => {
-      if (_gsapVars.onUpdate) _gsapVars.onUpdate();
-      if (_customVars.onReverseStart) {
+      if (gsapVars.onUpdate) gsapVars.onUpdate();
+      if (customVars.onReverseStart) {
         const reversed = transition.time() - transition.data.time < 0;
 
         transition.data = { ...transition.data, time: transition.time() };
 
         if (transition.data.back === false && reversed) {
-          _customVars.onReverseStart();
+          customVars.onReverseStart();
         }
 
         if (transition.data.back === true && !reversed)
@@ -317,7 +322,6 @@ export function createTransition(target, _gsapVars, _customVars) {
     });
   }
 
-  transition.play();
   return transition;
 }
 
