@@ -267,22 +267,19 @@ export function createTransition(target, gsapVars, customVars) {
     if (customVars.autoHideOnReverseComplete === true) {
       transition.eventCallback("onReverseComplete", () => {
         if (gsapVars.onReverseComplete) gsapVars.onReverseComplete();
-        d3.selectAll(target).style("display", "none");
-        d3.select(target).style("display", "none");
+        gsap.set(target, {display: "none"});
       });
 
       transition.eventCallback("onStart", () => {
         if (gsapVars.onStart) gsapVars.onStart();
-        d3.selectAll(target).style("display", "block");
-        d3.select(target).style("display", "block");
+        gsap.set(target, {display: "block"});
       });
     }
 
     if (customVars.autoHideOnComplete === true) {
       transition.eventCallback("onComplete", () => {
         if (gsapVars.onComplete) gsapVars.onComplete();
-        d3.selectAll(target).style("display", "none");
-        d3.select(target).style("display", "none");
+        gsap.set(target, {display: "none"});
       });
     }
 
@@ -298,8 +295,7 @@ export function createTransition(target, gsapVars, customVars) {
         transition.data.back = true;
         if (onReverseStartCopy) onReverseStartCopy();
         if (customVars.autoHideOnComplete === true){
-          d3.selectAll(target).style("display", "block");
-          d3.select(target).style("display", "block");
+          gsap.set(target, {display: "block"});
         }
       };
     }
@@ -337,7 +333,6 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
       typeof customVars === "object" || typeof customVars === "undefined"
         ? customVars
         : customVars(d, i);
-
     const transition = createTransition(this, _gsapVars, _customVars);
     manager.push(transition);
   });
