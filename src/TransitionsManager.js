@@ -343,5 +343,3 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
   });
   return this;
 };
-
-console.log("hi");
