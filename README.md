@@ -89,7 +89,7 @@ Use following functions in order to create and store transitions:
   You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
   Parameters:
 
-    <br/>
+
 
     - **target**:  
     Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
@@ -120,11 +120,7 @@ Use following functions in order to create and store transitions:
   - **Transitionsmanager** · _TransitionsManger_  
     Instance of TransitionsManager Class
 
-    <br style='display:block; content: ""; margin-top:5px'/>
-
   - **gsapVars** · _object or function_
-
-    <br style='display:block; content: ""; margin-top:5px'/>
 
   - **customVars** · _object or function_
     <br/>  
