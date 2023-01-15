@@ -1,65 +1,71 @@
 export default class TransitionsManager {
   #drawFunctions;
-  #maxStepDelay;
+  #maxViewDelay;
   #onProgressUpdate;
-  #step = -1;
-  #visitedSteps = [];
-  #transitionsInSteps = [];
+  #curViewNo = -1;
+  #visitedViewNo = [];
+  #transitionsInViewNos = [];
   #transitionStates = [];
 
-  constructor(drawFunctions, maxStepDelay, onProgressUpdate) {
+  constructor(drawFunctions, maxViewDelay, onProgressUpdate) {
     this.#drawFunctions = drawFunctions;
-    this.#maxStepDelay = maxStepDelay;
+    this.#maxViewDelay = maxViewDelay;
     this.#onProgressUpdate = onProgressUpdate;
 
     for (let i = 0; i < drawFunctions.length; i++)
-      this.#transitionsInSteps[i] = [];
+      this.#transitionsInViewNos[i] = [];
   }
 
   // PUBLIC
 
   push(transition) {
     transition.pause();
-    let transitionsList = this.#transitionsInSteps[this.#step];
-    if (!this.#visitedSteps.includes(this.#step)) {
+    let transitionsList = this.#transitionsInViewNos[this.#curViewNo];
+    if (!this.#visitedViewNo.includes(this.#curViewNo)) {
       transitionsList.push(transition);
     }
   }
 
-  getStep() {
-    return this.#step;
+  getCurrentViewNumber() {
+    return this.#curViewNo;
   }
 
-  drawStep(step) {
+  drawView(viewNumber) {
+    if (!(0 <= this.#curViewNo && this.#curViewNo <= this.#drawFunctions.length - 1)) {
+      throw new Error(
+        "View number is out of bounce. Please provide a valid view number."
+      );
+    }
+
     if (this.#noActiveTransitions()) {
-      const initialStep = this.getStep();
-      const stepDiff = initialStep - step;
+      const initialViewNo = this.getCurrentViewNumber();
+      const viewNoDiff = initialViewNo - viewNumber;
 
-      if (stepDiff === 0) return;
+      if (viewNoDiff === 0) return;
 
-      const back = stepDiff > 0;
+      const back = viewNoDiff > 0;
 
-      if (Math.abs(stepDiff) === 1) {
+      if (Math.abs(viewNoDiff) === 1) {
         if (back) {
-          this.drawPrevStep();
+          this.drawPrevView();
         } else {
-          this.drawNextStep();
+          this.drawNextView();
         }
       } else {
-        const maxStepDelay = this.#maxStepDelay;
-        this.#maxStepDelay = 0;
+        const maxViewDelay = this.#maxViewDelay;
+        this.#maxViewDelay = 0;
         if (back) {
-          for (let i = initialStep; i > step; --i) {
-            this.drawPrevStep();
+          for (let i = initialViewNo; i > viewNumber; --i) {
+            this.drawPrevView();
           }
         } else {
-          for (let i = initialStep; i < step; ++i) {
-            this.drawNextStep();
+          for (let i = initialViewNo; i < viewNumber; ++i) {
+            this.drawNextView();
           }
         }
-        this.#maxStepDelay = maxStepDelay;
+        this.#maxViewDelay = maxViewDelay;
         this.#endAllTransitions(
-          back ? this.#step + 1 : this.#step,
+          back ? this.#curViewNo + 1 : this.#curViewNo,
           0,
           () => {}
         );
@@ -67,25 +73,28 @@ export default class TransitionsManager {
     }
   }
 
-  drawPrevStep() {
-    if (this.#noActiveTransitions()) {
-      this.#step--;
-      this.#endAllTransitionsNeighbouringSteps(true, () => {
+  drawPrevView() {
+    if (this.#noActiveTransitions() && this.#curViewNo > 0) {
+      this.#curViewNo--;
+      this.#endAllTransitionsNeighbouringViews(true, () => {
         this.#playReversedTransitions();
       });
     }
   }
 
-  drawNextStep() {
-    if (this.#noActiveTransitions()) {
-      this.#step++;
-      this.#endAllTransitionsNeighbouringSteps(false, () => {
-        if (!this.#visitedSteps.includes(this.#step)) {
-          this.#drawFunctions[this.#step]();
+  drawNextView() {
+    if (
+      this.#noActiveTransitions() &&
+      this.#curViewNo < this.#drawFunctions.length - 1
+    ) {
+      this.#curViewNo++;
+      this.#endAllTransitionsNeighbouringViews(false, () => {
+        if (!this.#visitedViewNo.includes(this.#curViewNo)) {
+          this.#drawFunctions[this.#curViewNo]();
           if (this.#onProgressUpdate) {
             this.#pushProgressTransition();
           }
-          this.#pushVisitedStep();
+          this.#pushVisitedViewNo();
         }
         this.#playTransitions();
       });
@@ -94,9 +103,9 @@ export default class TransitionsManager {
 
   // PRIVATE
 
-  // plays animations stored in current step
+  // plays animations stored in current view
   #playTransitions() {
-    const transitionsList = this.#transitionsInSteps[this.#step];
+    const transitionsList = this.#transitionsInViewNos[this.#curViewNo];
 
     transitionsList.map((transition) => {
       if (transition.totalProgress() === 0)
@@ -105,38 +114,38 @@ export default class TransitionsManager {
     });
   }
 
-  // plays animations stored in step after current step in reverse
+  // plays animations stored in view after current view in reverse
   #playReversedTransitions() {
-    const step = this.#step;
-    const transitionsList = this.#transitionsInSteps[step + 1];
+    const viewNo = this.#curViewNo;
+    const transitionsList = this.#transitionsInViewNos[viewNo + 1];
 
     transitionsList.map((transition) => {
       transition.reverse();
     });
   }
 
-  #endAllTransitionsNeighbouringSteps(back, onEnded) {
-    // step 0 does not have any transitions existing in previous steps
-    if (!back && this.#step === 0) {
+  #endAllTransitionsNeighbouringViews(back, onEnded) {
+    // View 0 does not have any transitions existing in previous views
+    if (!back && this.#curViewNo === 0) {
       onEnded();
       return;
     }
 
-    // second last step don't need to care about any previous transitions when direction is backwards
-    if (back && this.#step === this.#transitionsInSteps.length - 2) {
+    // second last view don't need to care about any previous transitions when direction is backwards
+    if (back && this.#curViewNo === this.#transitionsInViewNos.length - 2) {
       onEnded();
       return;
     }
 
-    // end all transitions in neighbouring steps
-    const step = back ? this.#step + 2 : this.#step - 1;
-    this.#endAllTransitions(step, this.#maxStepDelay, onEnded);
+    // end all transitions in neighbouring view
+    const viewNo = back ? this.#curViewNo + 2 : this.#curViewNo - 1;
+    this.#endAllTransitions(viewNo, this.#maxViewDelay, onEnded);
   }
 
-  // ends all transitions in the given step
-  #endAllTransitions(step, maxTime, onEnded) {
+  // ends all transitions in the given view
+  #endAllTransitions(viewNo, maxTime, onEnded) {
     this.#transitionStates = [];
-    const transitionsList = this.#transitionsInSteps[step];
+    const transitionsList = this.#transitionsInViewNos[viewNo];
 
     // pause all transitions to avoid that transitions progress while code is executed which may lead to conflicts
     // create & store unique index in active transitions and update transitionsStates (prebuild the array to avoid race conditions)
@@ -228,15 +237,15 @@ export default class TransitionsManager {
       transition.timeScale((factor * timeUntilComplete) / maxTime);
   }
 
-  // pushes a transition to measure progress for the current step and executes a given function everytim the progress changes
+  // pushes a transition to measure progress for the current view and executes a given function everytim the progress changes
   #pushProgressTransition() {
-    const transitionsList = this.#transitionsInSteps[this.#step];
-    const stepDuration = Math.max(
+    const transitionsList = this.#transitionsInViewNos[this.#curViewNo];
+    const viewDuration = Math.max(
       ...transitionsList.map(
         (transition) => transition.totalDuration() + transition.delay()
       )
     );
-    const progressTransition = gsap.to({}, { duration: stepDuration });
+    const progressTransition = gsap.to({}, { duration: viewDuration });
     progressTransition.eventCallback("onUpdate", () => {
       this.#onProgressUpdate(
         progressTransition.totalProgress(),
@@ -253,33 +262,33 @@ export default class TransitionsManager {
     );
   }
 
-  #pushVisitedStep() {
-    this.#visitedSteps.push(this.#step);
+  #pushVisitedViewNo() {
+    this.#visitedViewNo.push(this.#curViewNo);
   }
 }
 
 // create a gsap transition taking customVars into consideration
 export function createTransition(target, gsapVars, customVars) {
-  const transition = gsap.to(target, { ...gsapVars});
+  const transition = gsap.to(target, { ...gsapVars });
 
   // modify transition properties if necessary
   if (customVars) {
     if (customVars.autoHideOnReverseComplete === true) {
       transition.eventCallback("onReverseComplete", () => {
         if (gsapVars.onReverseComplete) gsapVars.onReverseComplete();
-        gsap.set(target, {display: "none"});
+        gsap.set(target, { display: "none" });
       });
 
       transition.eventCallback("onStart", () => {
         if (gsapVars.onStart) gsapVars.onStart();
-        gsap.set(target, {display: "block"});
+        gsap.set(target, { display: "block" });
       });
     }
 
     if (customVars.autoHideOnComplete === true) {
       transition.eventCallback("onComplete", () => {
         if (gsapVars.onComplete) gsapVars.onComplete();
-        gsap.set(target, {display: "none"});
+        gsap.set(target, { display: "none" });
       });
     }
 
@@ -294,8 +303,8 @@ export function createTransition(target, gsapVars, customVars) {
       customVars.onReverseStart = () => {
         transition.data.back = true;
         if (onReverseStartCopy) onReverseStartCopy();
-        if (customVars.autoHideOnComplete === true){
-          gsap.set(target, {display: "block"});
+        if (customVars.autoHideOnComplete === true) {
+          gsap.set(target, { display: "block" });
         }
       };
     }
