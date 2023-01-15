@@ -31,7 +31,7 @@ export default class TransitionsManager {
   }
 
   drawView(viewNumber) {
-    if (!(0 <= this.#curViewNo && this.#curViewNo <= this.#drawFunctions.length - 1)) {
+    if (!(0 <= viewNumber && viewNumber <= this.#drawFunctions.length - 1)) {
       throw new Error(
         "View number is out of bounce. Please provide a valid view number."
       );
