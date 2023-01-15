@@ -62,7 +62,7 @@ const manager = new aseq.TransitionsManager(
   <br/>
 - **maxViewDelay** · _optional, type: number_  
   Number which determines in what period of time playing transitions should be finished when navigating to a neighbouring view.  
-  If undefined transitions are never sped up.  
+  If undefined transitions are never speed up.  
   <br/>
 - **onProgressUpdate** · _optional, type: (progress: number, isReversed: boolean) => void)_  
   Function that is executed everytime the progress of a shot changes.  
@@ -86,26 +86,24 @@ Use following functions in order to create and store transitions:
 <br/>
 
 - aseq.**createTransition**_(target, gsapVars, customVars)_  
-  You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
+  You only need this function if you want to use one of the features provided by customVars! (Otherwise you can directly gsap.to()) This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
   Parameters:
-
-
 
     - **target**:  
     Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
         
-    - **gsapVars**: · _object_
+    - **gsapVars**: · _optional, object_  
     Variables which define the animation, see the documentation of [gsap.to()](<https://greensock.com/docs/v3/GSAP/gsap.to()>)
     - **customVars**: · _object_  
     object with keys:
 
-        - **autoHideOnReverseComplete** · _boolean_  
+        - **autoHideOnReverseComplete** · _opional, boolean_  
             If true, the targets style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-        - **autoHideOnComplete** · _boolean_  
+        - **autoHideOnComplete** · _optional, boolean_  
             If true, the targets style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-        - **onReverseStart** · _function_  
+        - **onReverseStart** · _optional, function_  
             The given function is called when reversing the animation.
 
 <br/>
@@ -120,9 +118,9 @@ Use following functions in order to create and store transitions:
   - **Transitionsmanager** · _TransitionsManger_  
     Instance of TransitionsManager Class
 
-  - **gsapVars** · _object or function_
+  - **gsapVars** · _optional, object or function_
 
-  - **customVars** · _object or function_
+  - **customVars** · _optional, object or function_
     <br/>  
     For gsapVars and customVars see createTransition (above). You can also provide gsapVars and customVars as a function in the form _(d,i) => {...}_ (no other variable names possible!) where d is the data and i the index.
 
@@ -130,7 +128,7 @@ Use following functions in order to create and store transitions:
 
 ## 3. Navigating
 
-There are three methods provided by the TransitionsManger - Class:
+After having created an instance of TransitionsManager-Class you can use the following functions to navigate:
 
 - TransitionsManager.**drawNextView**_( )_  
   Draws the next view, if current view is not the last view.
@@ -149,7 +147,7 @@ There are three methods provided by the TransitionsManger - Class:
 
 # Other Functions
 
-- TransitionsManager.**getCurrentViewNumber**  
+- TransitionsManager.**getCurrentViewNumber** *()*  
   Returns current view number.
 
 <br/>
