@@ -1,4 +1,4 @@
-let aseq;
+const aseq = {};
 aseq.TransitionsManager = class {
   #drawFunctions;
   #maxViewDelay;
