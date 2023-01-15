@@ -57,17 +57,14 @@ const manager = new aseq.TransitionsManager(
 ```
 
 - **drawFunctions** · _required, type: () => void_  
-  <br style='display:block; content: ""; margin-top:5px'/>
   Array which elements are drawFunctions for each shot  
   Order of elements determines the order of the shots!  
   <br/>
 - **maxViewDelay** · _optional, type: number_  
-  <br style='display:block; content: ""; margin-top:5px'/>
   Number which determines in what period of time playing transitions should be finished when navigating to a neighbouring view.  
   If undefined transitions are never sped up.  
   <br/>
 - **onProgressUpdate** · _optional, type: (progress: number, isReversed: boolean) => void)_  
-  <br style='display:block; content: ""; margin-top:5px'/>
   Function that is executed everytime the progress of a shot changes.  
   The input-parameter progress is a number in the interval [0,1].
 
