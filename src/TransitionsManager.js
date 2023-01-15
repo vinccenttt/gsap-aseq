@@ -330,7 +330,8 @@ aseq.createTransition = function (target, gsapVars, customVars) {
   return transition;
 };
 
-export default aseq;
+window.aseq = aseq;
+//export default aseq;
 
 // parameter: function(d,i) which returns object or directly pass object which defines porperties for gsap transition or custom params
 d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
