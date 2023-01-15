@@ -81,45 +81,36 @@ Use following functions in order to create and store transitions:
 <br/>
 
 - Transitionsmanger.**push**_(transition)_
-  <br style='display:block; content: ""; margin-top:5px'/>
   Stores and plays a GSAP transition ([gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) or [GSAP timeline](https://greensock.com/docs/v3/GSAP/Timeline)) which is passed as an input parameter.
 
 <br/>
 
-- aseq.**createTransition**_(target, gsapVars, customVars)_
-  <br style='display:block; content: ""; margin-top:5px'/>
+- aseq.**createTransition**_(target, gsapVars, customVars)_  
   You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
-  Parameters: - **target**:  
-   Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
+  Parameters:
 
-      <br style='display:block; content: ""; margin-top:5px'/>
+    <br/>
 
-      - __gsapVars__:  · *object*
-      Variables which define the animation, see the documentation of [gsap.to()](https://greensock.com/docs/v3/GSAP/gsap.to())
+    - **target**:  
+    Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
+        
+    - **gsapVars**: · _object_
+    Variables which define the animation, see the documentation of [gsap.to()](<https://greensock.com/docs/v3/GSAP/gsap.to()>)
+    - **customVars**: · _object_  
+    object with keys:
 
-      <br style='display:block; content: ""; margin-top:5px'/>
+        - **autoHideOnReverseComplete** · _boolean_  
+            If true, the targets style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-      - __customVars__:  · *object*
-      object with keys:
-          <br style='display:block; content: ""; margin-top:5px'/>
+        - **autoHideOnComplete** · _boolean_  
+            If true, the targets style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-          - __autoHideOnReverseComplete__ · *boolean*
-          If true, the targets style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
-
-          <br style='display:block; content: ""; margin-top:5px'/>
-
-          - __autoHideOnComplete__  · *boolean*
-           If true, the targets style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
-
-           <br style='display:block; content: ""; margin-top:5px'/>
-
-          - __onReverseStart__  · *function*
-          The given function is called when reversing the animation.
+        - **onReverseStart** · _function_  
+            The given function is called when reversing the animation.
 
 <br/>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Only for [D3.js](https://d3js.org/):**
-<br style='display:block; content: ""; margin-top:-10px'/>
+**Only for [D3.js](https://d3js.org/):**
 
 - selection.**gsapTo**_(TransitionsManager, gsapVars, customVars)_:
 
