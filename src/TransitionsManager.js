@@ -1,4 +1,4 @@
-export default aseq = {
+const aseq = {
   TransitionsManager: class {
     #drawFunctions;
     #maxViewDelay;
@@ -349,3 +349,5 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
   });
   return this;
 };
+
+export default aseq;
