@@ -344,7 +344,7 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
       typeof customVars === "object" || typeof customVars === "undefined"
         ? customVars
         : customVars(d, i);
-    const transition = createTransition(this, _gsapVars, _customVars);
+    const transition = aseq.createTransition(this, _gsapVars, _customVars);
     manager.push(transition);
   });
   return this;
