@@ -18,7 +18,7 @@ Reverting and skipping shots may lead to large coding overhead, be done ineffici
 - supports [gsap.to()-Tween](https://greensock.com/docs/v3/GSAP/gsap.to()) and [GSAP timelines](https://greensock.com/docs/v3/GSAP/Timeline) (using [gsap.to()-Tween](https://greensock.com/docs/v3/GSAP/gsap.to()) only)
 - fitted to be used with [D3.js](https://d3js.org/)
 
-# __Setup__
+# __Installation__
 
 ## via script tag
 Copy the following html into the head of your html-file file:
