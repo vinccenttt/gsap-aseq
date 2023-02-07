@@ -6,7 +6,7 @@ aseq.TransitionsManager = class {
   #curViewNo = -1;
   #visitedViewNo = [];
   #transitionsInViewNos = [];
-  #transitionStates = [];
+  #activeTransitions = [];
 
   constructor(drawFunctions, maxViewDelay, onProgressUpdate) {
     this.#drawFunctions = drawFunctions;
@@ -145,7 +145,7 @@ aseq.TransitionsManager = class {
 
   // ends all transitions in the given view
   #endAllTransitions(viewNo, maxTime, onEnded) {
-    this.#transitionStates = [];
+    this.#activeTransitions = [];
     const transitionsList = this.#transitionsInViewNos[viewNo];
 
     // pause all transitions to avoid that transitions progress while code is executed which may lead to conflicts
@@ -161,22 +161,11 @@ aseq.TransitionsManager = class {
 
       transition.pause();
       if (transition.totalProgress() !== (transition.reversed() ? 0 : 1)) {
-        // store transition index in transition.data
-        let newData;
-
-        if (transition.data)
-          newData = {
-            ...transition.data,
-            index: this.#transitionStates.length,
-          };
-        else newData = { index: this.#transitionStates.length };
-        transition.data = newData;
-
-        this.#transitionStates.push(false);
+        this.#activeTransitions.push(transition);
       }
     });
 
-    if (this.#transitionStates.length === 0) {
+    if (this.#activeTransitions.length === 0) {
       onEnded();
       return;
     }
@@ -196,23 +185,10 @@ aseq.TransitionsManager = class {
 
           transition.timeScale(transition.reversed() ? -1 : 1); //reset timeScale back to normal
 
-          if (transition.data) {
-            // safety check
-
-            this.#transitionStates[transition.data.index] = true;
-
-            let newData = undefined;
-            if (typeof transition.data.back !== "undefined") {
-              if (typeof transition.data.time !== "undefined")
-                newData = {
-                  back: transition.data.back,
-                  time: transition.data.time,
-                };
-              else newData = { back: transition.data.back };
-            }
-
-            transition.data = newData;
-          }
+          const transIndexInArray = this.#activeTransitions.findIndex(
+            (t) => t === transition
+          );
+          this.#activeTransitions[transIndexInArray] = null;
 
           if (this.#noActiveTransitions()) {
             onEnded();
@@ -258,8 +234,8 @@ aseq.TransitionsManager = class {
 
   #noActiveTransitions() {
     return (
-      this.#transitionStates.length === 0 ||
-      this.#transitionStates.every((e) => e === true)
+      this.#activeTransitions.length === 0 ||
+      this.#activeTransitions.every((e) => e === null)
     );
   }
 
@@ -350,3 +326,4 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
   });
   return this;
 };
+
