@@ -2,7 +2,7 @@
 
 This library is facilitates the creation of visualizations which consist of multiple shots between which should be animated. E.g. building up diagrams step by step to highlight different information or to make a visualization more understandable.
 <br style='display:block; content: ""; margin-top:5px'/>
-An example which uses this animated-sequencing is shown [here](https://vinccenttt.github.io/anomalies/).
+An example which uses GSAP-ASEQ is shown [here](https://vinccenttt.github.io/anomaly-heatmap-aseq/).
 
 <br/>
 
