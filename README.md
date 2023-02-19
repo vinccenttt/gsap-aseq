@@ -191,6 +191,7 @@ const transition = gsap.to(
   }
 );
 ```
+<br/>
 
 ## Revealing and Hiding Elements using the _display_ property
 
