@@ -1,6 +1,6 @@
 # **Introduction**
 
-GSAP-ASEQ is a library facilitates the creation of animated sequences. An animated sequence consist of multiple views and incorporates smooth transitions. Check out [this example](https://vinccenttt.github.io/anomaly-heatmap-aseq/) to get a better idea of what this all is about. The provided animated sequence was developed with the gelp of this library.
+GSAP-ASEQ is a library that facilitates the creation of animated sequences. An animated sequence consist of multiple views and incorporates smooth transitions. Check out [this example](https://vinccenttt.github.io/anomaly-heatmap-aseq/) to get a better idea of what this all is about. The provided animated sequence was developed with the gelp of this library.
 
 <br/>
 
@@ -8,8 +8,8 @@ GSAP-ASEQ is a library facilitates the creation of animated sequences. An animat
 
 - fast and efficient implementation
 - automatic reverting of transitions
-- fasten playing transitions when navigating to the next shot
-- skipping multiple shots
+- fasten playing transitions when navigating to the next view
+- skipping multiple views
 - supports [gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) and [GSAP timelines](https://greensock.com/docs/v3/GSAP/Timeline)
 - fitted to be used with [D3.js](https://d3js.org/)
 
@@ -23,7 +23,7 @@ This library is using [GSAP](https://greensock.com/) for transitions - consequen
 
 # **Motivation**
 
-Reverting and skipping shots may lead to large coding overhead, be done inefficiently or requires a large effort to develop an efficient and reusable code structure. As already mentioned above, this library addresses these issues and provides an efficient, reusable approach to create animated sequences.
+Reverting and skipping views may lead to large coding overhead, be done inefficiently or requires a large effort to develop an efficient and reusable code structure. As already mentioned above, this library addresses these issues and provides an efficient, reusable approach to create animated sequences.
 
 <br/>
 
@@ -54,54 +54,68 @@ const manager = new aseq.TransitionsManager(
 ```
 
 - **drawFunctions** · _required, type: () => void_  
-  Array which elements are drawFunctions for each shot  
-  Order of elements determines the order of the shots!  
+  Array that contains a function for each view.  
+  Order of elements determines the order of the views!  
   <br/>
 - **maxViewDelay** · _optional, type: number_  
   Number which determines in what period of time playing transitions should be finished when navigating to a neighbouring view.  
   If undefined transitions are never speed up.  
   <br/>
 - **onProgressUpdate** · _optional, type: (progress: number, isReversed: boolean) => void)_  
-  Function that is executed everytime the progress of a shot changes.  
+  Function that is executed everytime the progress of a view changes.  
   The input-parameter progress is a number in the interval [0,1].
 
 <br/>
 
 ## 2. How to create drawFunctions
 
-Each drawFunction should represent a shot or a view in the visualization. You can do whatever you want in these functions.
+Each drawFunction should represent a view in the visualization. You can do whatever you want in these functions. Draw functions cannot have any parameters!
 
 **Make everything a transition!**  
- Only GSAP transitions will be considered and used when reverting and navigating through the multiple shots! Everything else, such as creating elements, will only be executed the first time we call the drawFunction.  
-Use following functions in order to create and store transitions:
+ Only GSAP transitions will be considered and used when reverting and navigating through the multiple views! Everything else, such as creating elements, will only be executed the first time we call the drawFunction.  
+Use the following functions in order to create and store transitions:
 
 <br/>
 
 - Transitionsmanger.**push**_(transition)_
-  Stores and plays a GSAP transition ([gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) or [GSAP timeline](https://greensock.com/docs/v3/GSAP/Timeline)) which is passed as an input parameter.
+  Stores and plays a GSAP transition ([gsap Tween](https://greensock.com/docs/v3/GSAP/Tween) or [GSAP timeline](https://greensock.com/docs/v3/GSAP/Timeline)) which is passed as an input parameter. This function also accepts transitions created by the **createTransition** which is explained in the next bullet point.
+
+  ```js
+  const transition = gsap.to(".pseudo-class", { duraton: 3, x: 80 });
+  manager.push(transition);
+  ```
 
 <br/>
 
-- aseq.**createTransition**_(target, gsapVars, customVars)_  
-  You only need this function if you want to use one of the features provided by customVars! (Otherwise you can directly gsap.to()) This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
+- aseq.**createTransition**_(target, gsapVars, customVars)_
+  You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).
   Parameters:
 
-    - **target**:  
+  - **target**:
     Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
-        
-    - **gsapVars**: · _optional, object_  
-    Variables which define the animation, see the documentation of [gsap.to()](<https://greensock.com/docs/v3/GSAP/gsap.to()>)
-    - **customVars**: · _object_  
+
+  - **gsapVars**: · _optional, object_
+    Variables which define the animation, see the documentation of creating a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween)
+  - **customVars**: · _object_
     object with keys:
 
-        - **autoHideOnReverseComplete** · _opional, boolean_  
-            If true, the targets style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
+        - **autoHideOnReverseComplete** · _opional, boolean_
+            If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-        - **autoHideOnComplete** · _optional, boolean_  
-            If true, the targets style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
+        - **autoHideOnComplete** · _optional, boolean_
+            If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-        - **onReverseStart** · _optional, function_  
+        - **onReverseStart** · _optional, function_
             The given function is called when reversing the animation.
+
+  ```js
+  const transition = createTransition(
+    ".pseudo-class",
+    { duraton: 3, x: 80 },
+    { autoHideOnComplete: true }
+  );
+  manager.push(transition);
+  ```
 
 <br/>
 
@@ -109,16 +123,16 @@ Use following functions in order to create and store transitions:
 
 - selection.**gsapTo**_(TransitionsManager, gsapVars, customVars)_:
 
-  This function can be used like any other d3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation.  
-   Parameters:
+  This function can be used like any other d3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation.
+  Parameters:
 
-  - **Transitionsmanager** · _TransitionsManger_  
+  - **Transitionsmanager** · _TransitionsManger_
     Instance of TransitionsManager Class
 
   - **gsapVars** · _optional, object or function_
 
   - **customVars** · _optional, object or function_
-    <br/>  
+    <br/>
     For gsapVars and customVars see createTransition (above). You can also provide gsapVars and customVars as a function in the form _(d,i) => {...}_ (no other variable names possible!) where d is the data and i the index.
 
 <br/>
@@ -127,24 +141,24 @@ Use following functions in order to create and store transitions:
 
 After having created an instance of TransitionsManager-Class you can use the following functions to navigate:
 
-- TransitionsManager.**drawNextView**_( )_  
+- TransitionsManager.**drawNextView**_( )_
   Draws the next view, if current view is not the last view.
 
 <br/>
 
-- TransitionsManager.**drawPrevView**_( )_  
+- TransitionsManager.**drawPrevView**_( )_
   Draws the next view, if current view is not first last view.
 
 <br/>
 
-- TransitionsManager.**drawView**_(viewNumber)_  
-   If viewNumber is a neighbour of the current view, **.drawNextView** or **.drawPrevView** are called. Otherwise it will skip all views inbetween and display the shot in it's finished state without playing any transitons.
+- TransitionsManager.**drawView**_(viewNumber)_
+  If viewNumber is a neighbour of the current view, **.drawNextView** or **.drawPrevView** are called. Otherwise it will skip all views inbetween and display the view in it's finished state without playing any transitons.
 
 <br/>
 
 # Other Functions
 
-- TransitionsManager.**getCurrentViewNumber** *()*  
+- TransitionsManager.**getCurrentViewNumber** _()_
   Returns current view number.
 
 <br/>
@@ -152,3 +166,11 @@ After having created an instance of TransitionsManager-Class you can use the fol
 # Restrictions
 
 - The [.data property](https://greensock.com/docs/v3/GSAP/Tween/data) cannot be used as it is used inside TransitionsManager. Moreover you should not pass any reversed transitions.
+
+```
+
+```
+
+```
+
+```
