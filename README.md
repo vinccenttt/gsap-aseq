@@ -161,6 +161,8 @@ After having created an instance of TransitionsManager-Class you can use the fol
 - TransitionsManager.**drawView**_(viewNumber)_  
   If viewNumber is a neighbour of the current view, **.drawNextView** or **.drawPrevView** are called. Otherwise it will skip all views inbetween and display the view in it's finished state without playing any transitons.
 
+<br/>
+
 # Other Functions
 
 - TransitionsManager.**getCurrentViewNumber** _()_  
@@ -171,6 +173,8 @@ After having created an instance of TransitionsManager-Class you can use the fol
 # Restrictions
 
 - The [.data property](https://greensock.com/docs/v3/GSAP/Tween/data) cannot be used as it is used inside TransitionsManager. Moreover you should not pass any reversed transitions.
+
+<br/>
 
 # Further Details
 
