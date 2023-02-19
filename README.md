@@ -99,14 +99,14 @@ Use the following functions in order to create and store transitions:
   - **customVars**: · _object_
     object with keys:
 
-        - **autoHideOnReverseComplete** · _opional, boolean_
-            If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
+      - **autoHideOnReverseComplete** · _opional, boolean_
+          If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-        - **autoHideOnComplete** · _optional, boolean_
-            If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
+      - **autoHideOnComplete** · _optional, boolean_
+          If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-        - **onReverseStart** · _optional, function_
-            The given function is called when reversing the animation.
+      - **onReverseStart** · _optional, function_
+          The given function is called when reversing the animation.
 
   ```js
   const transition = createTransition(
