@@ -1,17 +1,16 @@
 # **Introduction**
 
-This library is facilitates the creation of visualizations which consist of multiple shots between which should be animated. E.g. building up diagrams step by step to highlight different information or to make a visualization more understandable.
-<br style='display:block; content: ""; margin-top:5px'/>
-An example which uses GSAP-ASEQ is shown [here](https://vinccenttt.github.io/anomaly-heatmap-aseq/).
+GSAP-ASEQ is a library facilitates the creation of animated sequences. An animated sequence consist of multiple views and incorporates smooth transitions. Check out [this example](https://vinccenttt.github.io/anomaly-heatmap-aseq/) to get a better idea of what this all is about. The provided animated sequence was developed with the gelp of this library.
 
 <br/>
 
 # **Features**
 
-- automatic reverting
+- fast and efficient implementation
+- automatic reverting of transitions
 - fasten playing transitions when navigating to the next shot
 - skipping multiple shots
-- supports [gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) and [GSAP timelines](https://greensock.com/docs/v3/GSAP/Timeline) (using [gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) only)
+- supports [gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) and [GSAP timelines](https://greensock.com/docs/v3/GSAP/Timeline)
 - fitted to be used with [D3.js](https://d3js.org/)
 
 <br/>
@@ -24,15 +23,13 @@ This library is using [GSAP](https://greensock.com/) for transitions - consequen
 
 # **Motivation**
 
-Reverting and skipping shots may lead to large coding overhead, be done inefficiently or requires a large effort to develop an efficient and reusable code structure. As already mentioned above, this library addresses this issues and provides an efficient, reusable approach to create animated sequences.
+Reverting and skipping shots may lead to large coding overhead, be done inefficiently or requires a large effort to develop an efficient and reusable code structure. As already mentioned above, this library addresses these issues and provides an efficient, reusable approach to create animated sequences.
 
 <br/>
 
 # **Installation**
 
-## via script tag
-
-Copy the following html into the head of your html-file file:
+Copy the following HTML into the head of your HMTL-file file:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
@@ -40,7 +37,7 @@ Copy the following html into the head of your html-file file:
 ```
 
 **If you are using [D3.js](https://d3js.org/) make sure you embed D3 before!**  
-Alll available functions and classes can now be accessed globally via the object **aseq**.
+All available functions and classes can now be accessed globally via the object **aseq**.
 
 <br/>
 
