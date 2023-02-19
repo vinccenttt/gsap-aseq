@@ -174,16 +174,19 @@ After having created an instance of TransitionsManager-Class you can use the fol
 
 # Further Details
 
-## Defining a Custom Interpolator Similar to attrTween in D3.js  
-  The **attrTween** function allows defining attribute or style values dependent on the progress of the transition. A similar effect can be archieved with GSAP by using the **onUpdate** function as demonstrated in the example below.
-  ```js
-  const transition = gsap.to(
-    {},
-    {
-      onUpdate: () => d3.select("#taget").attr("x", transition.progress() * 10),
-    }
-  );
-  ```
+## Defining a Custom Interpolator Similar to attrTween in D3.js
+
+The **attrTween** function allows defining attribute or style values dependent on the progress of the transition. A similar effect can be archieved with GSAP by using the **onUpdate** function as demonstrated in the example below.
+
+```js
+const transition = gsap.to(
+  {},
+  {
+    onUpdate: () =>
+      gsap.set(".pseudo-class", { x: transition.progress() * 10 }),
+  }
+);
+```
 
 ## Revealing and Hiding Elements using the _display_ property
 
