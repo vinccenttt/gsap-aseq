@@ -67,7 +67,7 @@ const manager = new aseq.TransitionsManager(
 
 <br/>
 
-## 2. How to create drawFunctions
+## 2. How to Create DrawFunctions
 
 Each drawFunction should represent a view in the visualization. You can do whatever you want in these functions. Draw functions cannot have any parameters!
 
