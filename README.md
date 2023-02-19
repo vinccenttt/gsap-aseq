@@ -99,14 +99,14 @@ Use the following functions in order to create and store transitions:
   - **customVars**: · _object_
     object with keys:
 
-      - **autoHideOnReverseComplete** · _opional, boolean_
-          If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
+    - **autoHideOnReverseComplete** · _opional, boolean_
+      If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-      - **autoHideOnComplete** · _optional, boolean_
-          If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
+    - **autoHideOnComplete** · _optional, boolean_
+      If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-      - **onReverseStart** · _optional, function_
-          The given function is called when reversing the animation.
+    - **onReverseStart** · _optional, function_
+      The given function is called when reversing the animation.
 
   ```js
   const transition = createTransition(
@@ -123,8 +123,10 @@ Use the following functions in order to create and store transitions:
 
 - selection.**gsapTo**_(TransitionsManager, gsapVars, customVars)_:
 
-  This function can be used like any other d3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation.
-  Parameters:
+  This function can be used like any other D3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation by using the [gsap.to](<https://greensock.com/docs/v3/GSAP/gsap.to()>) function.
+
+  - **customVars**: · _object_ function.
+    Parameters:
 
   - **Transitionsmanager** · _TransitionsManger_
     Instance of TransitionsManager Class
@@ -133,7 +135,18 @@ Use the following functions in order to create and store transitions:
 
   - **customVars** · _optional, object or function_
     <br/>
-    For gsapVars and customVars see createTransition (above). You can also provide gsapVars and customVars as a function in the form _(d,i) => {...}_ (no other variable names possible!) where d is the data and i the index.
+
+  For gsapVars and customVars see createTransition (above). You can also provide gsapVars and customVars as a function in the form _(d,i) => {...}_ (no other variable names possible!) where d is the data and i the index.
+
+  ```js
+  d3.selectAll(".element-with-bound-data").gsapTo(
+    manager,
+    (d, i) => {
+      return { duration: 1, x: 80 };
+    },
+    { autoHideOnReverseComplete: true }
+  );
+  ```
 
 <br/>
 
@@ -159,7 +172,7 @@ After having created an instance of TransitionsManager-Class you can use the fol
 # Other Functions
 
 - TransitionsManager.**getCurrentViewNumber** _()_
-  Returns current view number.
+  Returns the index (position within the sequence) of the currently displayed view.
 
 <br/>
 
