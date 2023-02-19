@@ -77,7 +77,7 @@ Use the following functions in order to create and store transitions:
 
 <br/>
 
-- Transitionsmanger.**push**_(transition)_
+- Transitionsmanger.**push**_(transition)_  
   Stores and plays a GSAP transition ([gsap Tween](https://greensock.com/docs/v3/GSAP/Tween) or [GSAP timeline](https://greensock.com/docs/v3/GSAP/Timeline)) which is passed as an input parameter. This function also accepts transitions created by the **createTransition** which is explained in the next bullet point.
 
   ```js
@@ -87,25 +87,25 @@ Use the following functions in order to create and store transitions:
 
 <br/>
 
-- aseq.**createTransition**_(target, gsapVars, customVars)_
-  You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).
+- aseq.**createTransition**_(target, gsapVars, customVars)_  
+  You only need this function if you want to use one of the features provided by customVars! This function returns a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween).  
   Parameters:
 
-  - **target**:
-    Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
+  - **target**:  
+  Target on which the animation should be applied, such as a class, id or reference. More details can be found [here](<https://greensock.com/docs/v3/GSAP/gsap.to()>).
 
-  - **gsapVars**: · _optional, object_
+  - **gsapVars**: · _optional, object_  
     Variables which define the animation, see the documentation of creating a [GSAP-Tween](https://greensock.com/docs/v3/GSAP/Tween)
   - **customVars**: · _object_
     object with keys:
 
-    - **autoHideOnReverseComplete** · _opional, boolean_
+    - **autoHideOnReverseComplete** · _opional, boolean_  
       If true, the target's style attribute display is set to none when the reversed animation is completed and sets it back to display:block when the animation is played again (not reversed).
 
-    - **autoHideOnComplete** · _optional, boolean_
+    - **autoHideOnComplete** · _optional, boolean_  
       If true, the target's style attribute display is set to none when the animation is completed and sets it back to display:block when the animation is played reversed.
 
-    - **onReverseStart** · _optional, function_
+    - **onReverseStart** · _optional, function_  
       The given function is called when reversing the animation.
 
   ```js
@@ -123,12 +123,10 @@ Use the following functions in order to create and store transitions:
 
 - selection.**gsapTo**_(TransitionsManager, gsapVars, customVars)_:
 
-  This function can be used like any other D3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation by using the [gsap.to](<https://greensock.com/docs/v3/GSAP/gsap.to()>) function.
+  This function can be used like any other D3 function as it works on a selection and also returns a selection. It creates, stores and plays a GSAP animation by using the [gsap.to](<https://greensock.com/docs/v3/GSAP/gsap.to()>) function.  
+  Parameters:
 
-  - **customVars**: · _object_ function.
-    Parameters:
-
-  - **Transitionsmanager** · _TransitionsManger_
+  - **Transitionsmanager** · _TransitionsManger_  
     Instance of TransitionsManager Class
 
   - **gsapVars** · _optional, object or function_
@@ -142,7 +140,7 @@ Use the following functions in order to create and store transitions:
   d3.selectAll(".element-with-bound-data").gsapTo(
     manager,
     (d, i) => {
-      return { duration: 1, x: 80 };
+      return { duration: 1, x: d * 10 };
     },
     { autoHideOnReverseComplete: true }
   );
@@ -154,24 +152,24 @@ Use the following functions in order to create and store transitions:
 
 After having created an instance of TransitionsManager-Class you can use the following functions to navigate:
 
-- TransitionsManager.**drawNextView**_( )_
+- TransitionsManager.**drawNextView**_( )_  
   Draws the next view, if current view is not the last view.
 
 <br/>
 
-- TransitionsManager.**drawPrevView**_( )_
+- TransitionsManager.**drawPrevView**_( )_  
   Draws the next view, if current view is not first last view.
 
 <br/>
 
-- TransitionsManager.**drawView**_(viewNumber)_
+- TransitionsManager.**drawView**_(viewNumber)_  
   If viewNumber is a neighbour of the current view, **.drawNextView** or **.drawPrevView** are called. Otherwise it will skip all views inbetween and display the view in it's finished state without playing any transitons.
 
 <br/>
 
 # Other Functions
 
-- TransitionsManager.**getCurrentViewNumber** _()_
+- TransitionsManager.**getCurrentViewNumber** _()_  
   Returns the index (position within the sequence) of the currently displayed view.
 
 <br/>
@@ -179,11 +177,3 @@ After having created an instance of TransitionsManager-Class you can use the fol
 # Restrictions
 
 - The [.data property](https://greensock.com/docs/v3/GSAP/Tween/data) cannot be used as it is used inside TransitionsManager. Moreover you should not pass any reversed transitions.
-
-```
-
-```
-
-```
-
-```
