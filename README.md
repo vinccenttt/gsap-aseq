@@ -77,12 +77,12 @@ Use the following functions in order to create and store transitions:
 
 <br/>
 
-- Transitionsmanger.**push**_(transition)_  
+- Transitionsmanger.**storeTransition**_(transition)_  
   Stores and plays a GSAP transition ([gsap Tween](https://greensock.com/docs/v3/GSAP/Tween) or [GSAP timeline](https://greensock.com/docs/v3/GSAP/Timeline)) which is passed as an input parameter. This function also accepts transitions created by the **createTransition** which is explained in the next bullet point.
 
   ```js
   const transition = gsap.to(".pseudo-class", { duraton: 3, x: 80 });
-  manager.push(transition);
+  manager.storeTransition(transition);
   ```
 
 <br/>
@@ -114,7 +114,7 @@ Use the following functions in order to create and store transitions:
     { duraton: 3, x: 80 },
     { autoHideOnComplete: true }
   );
-  manager.push(transition);
+  manager.storeTransition(transition);
   ```
 
 <br/>
