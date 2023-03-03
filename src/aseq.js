@@ -19,7 +19,7 @@ aseq.TransitionsManager = class {
 
   // PUBLIC
 
-  push(transition) {
+  storeTransition(transition) {
     transition.pause();
     let transitionsList = this.#transitionsInViewNos[this.#curViewNo];
     if (!this.#visitedViewNo.includes(this.#curViewNo)) {
@@ -253,7 +253,7 @@ aseq.TransitionsManager = class {
         progressTransition.reversed()
       );
     });
-    this.push(progressTransition);
+    this.storeTransition(progressTransition);
   }
 
   #noActiveTransitions() {
@@ -346,7 +346,7 @@ d3.selection.prototype.gsapTo = function (manager, gsapVars, customVars) {
         ? customVars
         : customVars(d, i);
     const transition = aseq.createTransition(this, _gsapVars, _customVars);
-    manager.push(transition);
+    manager.storeTransition(transition);
   });
   return this;
 };
