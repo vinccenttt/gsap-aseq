@@ -1,6 +1,6 @@
 # **Introduction**
 
-GSAP-ASEQ is a library that facilitates the creation of animated sequences. An animated sequence consist of multiple views and incorporates smooth transitions. Check out [this example](https://vinccenttt.github.io/anomaly-heatmap-aseq/) to get a better idea of what this all is about. The provided animated sequence was developed with the gelp of this library.
+GSAP-ASEQ is a library that facilitates the creation of animated sequences. An animated sequence consists of multiple views and incorporates smooth transitions. Check out [this example](https://vinccenttt.github.io/anomaly-heatmap-aseq/) to get a better idea of what this all is about. The provided animated sequence was developed with the help of GSAP-ASEQ.
 
 <br/>
 
@@ -10,7 +10,7 @@ GSAP-ASEQ is a library that facilitates the creation of animated sequences. An a
 - automatic reverting of transitions
 - fasten playing transitions when navigating to the next view
 - skipping multiple views
-- supports [gsap.to()-Tween](<https://greensock.com/docs/v3/GSAP/gsap.to()>) and [GSAP timelines](https://greensock.com/docs/v3/GSAP/Timeline)
+- supports [GSAP Tween](<https://greensock.com/docs/v3/GSAP/Tween>) and [GSAP Timelines](https://greensock.com/docs/v3/GSAP/Timeline)
 - fitted to be used with [D3.js](https://d3js.org/)
 
 <br/>
@@ -59,7 +59,7 @@ const manager = new aseq.TransitionsManager(
   <br/>
 - **maxViewDelay** · _optional, type: number_  
   Number which determines in what period of time playing transitions should be finished when navigating to a neighbouring view.  
-  If undefined transitions are never speed up.  
+  If undefined, transitions are never speed up.  
   <br/>
 - **onProgressUpdate** · _optional, type: (progress: number, isReversed: boolean) => void)_  
   Function that is executed everytime the progress of a view changes.  
